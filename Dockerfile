@@ -1,24 +1,15 @@
-# Use the official Node.js base image
-FROM node:18
+# Use the official Nginx image from the Docker Hub as the base image
+FROM nginx:latest
 
-# Set the working directory inside the container
-WORKDIR /app
+# Copy custom configuration file (optional)
+# COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy package.json and package-lock.json first
-COPY package*.json ./
+# Copy website files (optional)
+# COPY ./html /usr/share/nginx/html
 
-# Install dependencies
-RUN npm install
+# Expose port 80
+EXPOSE 80
 
-# Copy the rest of the application
-COPY . .
-
-# Make jen.sh executable (if needed)
-RUN chmod +x jen.sh
-
-# Expose the port (change if your app uses a different one)
-EXPOSE 3000
-
-# Command to run your app
-CMD ["npm", "start"]
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
 
